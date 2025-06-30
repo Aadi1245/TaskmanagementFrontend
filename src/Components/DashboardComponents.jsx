@@ -33,32 +33,32 @@ const StatsCard = React.memo(({ title, value, icon: Icon, color, bgColor }) => (
   </div>
 ));
 
-function StateCards({totalTask,pending,completed,inProgress}){
+function StateCards({totalTask,pending,completed,inProgress, user}) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <StatsCard
-            title="Total Tasks"
+            title={user?.isAdmin?"All Request":"Total Tasks"}
             value={totalTask}
             icon={CheckSquare}
             color="text-gray-900"
             bgColor="bg-blue-100"
           />
           <StatsCard
-            title="Completed"
+            title={user?.isAdmin?"Accepted Request":"Completed"}
             value={completed}
             icon={CheckCircle}
             color="text-green-600"
             bgColor="bg-green-100"
           />
-          <StatsCard
-            title="In Progress"
+   {user?.isAdmin?"":<StatsCard
+            title={user?.isAdmin?"Rejected Request":"In Progress"}
             value={inProgress}
             icon={Clock}
             color="text-blue-600"
             bgColor="bg-blue-100"
-          />
+          />}
           <StatsCard
-            title="Pending"
+            title={user?.isAdmin?"Pending Request":"Pending"}
             value={pending}
             icon={Clock}
             color="text-yellow-600"
@@ -73,9 +73,9 @@ const TaskCard = React.memo(({ task, onEdit, onDelete,user }) => (
     <div className="flex items-start justify-between">
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-2 flex-wrap">
-          <h3 className="text-lg font-semibold text-gray-900">{user.isAdmin?task.userName: task.title}</h3>
-          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(user.isAdmin?task.isAuthorized?"completed":"pending": task.status)}`}>
-            {user.isAdmin?task.isAuthorized?"Accepted":"Pending": task?.status?.replace(/([A-Z])/g, ' $1').trim()}
+          <h3 className="text-lg font-semibold text-gray-900">{user?.isAdmin?task.userName: task.title}</h3>
+          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(user?.isAdmin?task.isAuthorized?"completed":"pending": task.status)}`}>
+            {user?.isAdmin?task.isAuthorized?"Accepted":"Pending": task?.status?.replace(/([A-Z])/g, ' $1').trim()}
           </span>
           <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 capitalize">
             {task.priority}
@@ -104,20 +104,36 @@ const TaskCard = React.memo(({ task, onEdit, onDelete,user }) => (
       
       <div className="flex items-center gap-2 ml-4">
         
+       {user?.isAdmin?<button
+              onClick={() => onEdit(task)}
+              className="p-2 text-green-600  hover:bg-green-50 rounded-lg transition-colors"
+              aria-label={`Accept request from ${task.userName}`}
+            >
+              ✅
+            </button>:
         <button 
           onClick={() => onEdit(task)}
           className=" p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
           aria-label={`Edit task: ${task.title}`}
         >
           <Edit size={16} color='gray' />
-        </button>
-        <button 
+        </button>}
+        {user?.isAdmin? ""
+        //  <button
+        //       onClick={() => onDelete({ ...task, isAuthorized: false, permission: ['rejected'] })}
+        //       className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+        //       aria-label={`Reject request from ${task.userName}`}
+        //     >
+        //       ❌
+        //     </button>
+        :
+          <button 
           onClick={() => onDelete(task)}
           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
           aria-label={`Delete task: ${task.title}`}
         >
           <Trash2 size={16} />
-        </button>
+        </button>}
       </div>
     </div>
   </div>

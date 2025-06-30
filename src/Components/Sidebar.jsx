@@ -3,7 +3,7 @@ import { Plus, List, CheckCircle, Clock, LogOut } from 'lucide-react';
 import React from 'react';
 
 
-export default function Sidebar({ isOpen, toggleSidebar, user,onCreateTaskClick}) {
+export default function Sidebar({ isOpen, toggleSidebar, user,onCreateTaskClick,allRequests,pendingRequests,acceptedRequests}) {
   const getInitials = (name) => {
     if (!name) return '??';
     const parts = name.trim().split(' ');
@@ -24,19 +24,20 @@ export default function Sidebar({ isOpen, toggleSidebar, user,onCreateTaskClick}
        { user.isAdmin? <ul className="space-y-6">
   <li
     className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition"
-    onClick={onCreateTaskClick}
+    onClick={allRequests}
   >
     <List className="text-blue-400" /> <span className="text-lg">All Requests</span>
   </li>
-  <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition">
+  <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition" onClick={pendingRequests}>
     <List className="text-yellow-400" /> <span className="text-lg">Pending Requests</span>
   </li>
-  <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition">
+  <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition" onClick={acceptedRequests}>
     <List className="text-green-400" /> <span className="text-lg">Accepted Requests</span>
   </li>
-  <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition">
-    <List className="text-red-400" /> <span className="text-lg">User Report</span>
-  </li>
+
+  {/* <li className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition">
+    <List className="text-red-400" /> <span className="text-lg">Rejected Requests</span>
+  </li> */}
 </ul>
 :
         <ul className="space-y-6">
@@ -58,7 +59,9 @@ export default function Sidebar({ isOpen, toggleSidebar, user,onCreateTaskClick}
         </ul>}
       </div>
       <div className="mt-10">
-        <div className="flex items-center space-x-3 cursor-pointer hover:bg-red-800 p-2 rounded-lg transition text-red-400">
+        <div className="flex items-center space-x-3 cursor-pointer hover:bg-red-800 p-2 rounded-lg transition text-red-400" onClick={() => {
+          localStorage.clear();
+          window.location.href = '/';}}>
           <LogOut /> <span className="text-lg">Logout</span>
         </div>
       </div>

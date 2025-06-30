@@ -33,8 +33,13 @@ const handleRegister = async (e) => {
 
     const data = await response.json();
     console.log("Registration successful:", data);
-
+    if(data?.isAuthorized){
     navigate("/dashboard");
+    }else{
+      // ✅ Show popup dialog
+      alert("Registration successful, but you need admin approval to access the dashboard.");
+      navigate("/");
+    }
   } catch (err) {
     console.error("Registration error:", err.message);
     setError(err.message);
