@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {  Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../Components/AuthLayout";
 import Dashboard from "./Dashboard";
-import "../Styles/Login.css";
+import "../assets/Styles/login.css"; // Import your CSS file
 
 
 export default function Login  ()  {
