@@ -104,12 +104,12 @@ const TaskCard = React.memo(({ task, onEdit, onDelete,user }) => (
       
       <div className="flex items-center gap-2 ml-4">
         
-       {user?.isAdmin?<button
+       {task.isAuthorized?<p className='p-2 text-green-600'>Accepted</p>: user?.isAdmin?<button
               onClick={() => onEdit(task)}
-              className="p-2 text-green-600  hover:bg-green-50 rounded-lg transition-colors"
+              className="p-2 text-red-600  hover:bg-green-50 rounded-lg transition-colors"
               aria-label={`Accept request from ${task.userName}`}
             >
-              ✅
+             Accept ✅
             </button>:
         <button 
           onClick={() => onEdit(task)}

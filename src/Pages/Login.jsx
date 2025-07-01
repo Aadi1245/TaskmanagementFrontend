@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {  Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../Components/AuthLayout";
 import Dashboard from "./Dashboard";
+import "../Styles/Login.css";
 
 
 export default function Login  ()  {
